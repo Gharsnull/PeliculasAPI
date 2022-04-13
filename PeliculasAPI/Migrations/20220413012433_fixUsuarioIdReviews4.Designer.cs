@@ -13,8 +13,8 @@ using PeliculasAPI;
 namespace PeliculasAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220411164623_tableReviews")]
-    partial class tableReviews
+    [Migration("20220413012433_fixUsuarioIdReviews4")]
+    partial class fixUsuarioIdReviews4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -523,17 +523,14 @@ namespace PeliculasAPI.Migrations
                     b.Property<int>("Puntuacion")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuarioId1")
+                    b.Property<string>("UsuarioId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PeliculaId");
 
-                    b.HasIndex("UsuarioId1");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Reviews");
                 });
@@ -703,7 +700,7 @@ namespace PeliculasAPI.Migrations
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId1");
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Pelicula");
 

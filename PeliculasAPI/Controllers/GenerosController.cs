@@ -28,7 +28,7 @@ namespace PeliculasAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneroCreacionDTO>> Post([FromBody]GeneroCreacionDTO dto)
+        public async Task<ActionResult> Post([FromBody]GeneroCreacionDTO dto)
         {
             return await Post<GeneroCreacionDTO, Genero, GeneroDTO>(dto, "obtenerGenero");
         }

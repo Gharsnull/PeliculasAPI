@@ -17,7 +17,7 @@ namespace PeliculasAPI.Controllers
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
 
-        public ReviewController(ApplicationDbContext context, IMapper mapper):base(context, mapper)
+        public ReviewController(ApplicationDbContext context, IMapper mapper) : base(context, mapper)
         {
             this.context = context;
             this.mapper = mapper;
@@ -26,15 +26,15 @@ namespace PeliculasAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ReviewDTO>>> Get(int peliculaId, [FromQuery] PaginacionDTO paginacionDTO)
         {
-            var queryable = context.Reviews.Include(x=> x.Usuario).AsQueryable();
+            var queryable = context.Reviews.Include(x => x.Usuario).AsQueryable();
             queryable = queryable.Where(x => x.PeliculaId == peliculaId);
             return await Get<Review, ReviewDTO>(paginacionDTO, queryable);
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes= JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Post(int peliculaId, [FromBody] ReviewCreacionDTO reviewCreacionDTO)
-        {   
+        {
             var usuarioId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
             var reviewExiste = await context.Reviews.AnyAsync(x => x.PeliculaId == peliculaId && x.UsuarioId == usuarioId);
@@ -43,7 +43,7 @@ namespace PeliculasAPI.Controllers
             var review = mapper.Map<Review>(reviewCreacionDTO);
             review.PeliculaId = peliculaId;
             review.UsuarioId = usuarioId;
-            
+
             context.Add(review);
             var resultado = await context.SaveChangesAsync();
             if (resultado > 0)
@@ -62,7 +62,7 @@ namespace PeliculasAPI.Controllers
 
             var usuarioId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
             if (review.UsuarioId != usuarioId) return Forbid("No puedes modificar una reseña que no es tuya");
-            
+
             review = mapper.Map(reviewCreacionDTO, review);
             var resultado = await context.SaveChangesAsync();
             if (resultado > 0)
@@ -74,7 +74,7 @@ namespace PeliculasAPI.Controllers
 
         [HttpDelete("{reviewId}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<ActionResult> Delete( int reviewId)
+        public async Task<ActionResult> Delete(int reviewId)
         {
             var review = await context.Reviews.FirstOrDefaultAsync(x => x.Id == reviewId);
             if (review == null) return NotFound();

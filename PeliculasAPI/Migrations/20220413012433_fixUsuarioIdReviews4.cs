@@ -4,7 +4,7 @@
 
 namespace PeliculasAPI.Migrations
 {
-    public partial class tableReviews : Migration
+    public partial class fixUsuarioIdReviews4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,15 +17,14 @@ namespace PeliculasAPI.Migrations
                     Comentario = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Puntuacion = table.Column<int>(type: "int", nullable: false),
                     PeliculaId = table.Column<int>(type: "int", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    UsuarioId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UsuarioId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_AspNetUsers_UsuarioId1",
-                        column: x => x.UsuarioId1,
+                        name: "FK_Reviews_AspNetUsers_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -42,9 +41,9 @@ namespace PeliculasAPI.Migrations
                 column: "PeliculaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_UsuarioId1",
+                name: "IX_Reviews_UsuarioId",
                 table: "Reviews",
-                column: "UsuarioId1");
+                column: "UsuarioId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -6,7 +6,7 @@
         public string Comentario { get; set; }
         public int Puntuacion { get; set; }
         public int PeliculaId { get; set; }
-        public int UsuarioId { get; set; }
+        public string UsuarioId { get; set; }
         public string NombreUsuario { get; set; }
     }
 }
