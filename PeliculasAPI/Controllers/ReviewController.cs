@@ -11,6 +11,7 @@ using System.Security.Claims;
 namespace PeliculasAPI.Controllers
 {
     [Route("api/peliculas/{peliculaId:int}/reviews")]
+    [ServiceFilter(typeof(PeliculaExisteAttribute))]
     
     public class ReviewController: CustomBaseController
     {
